@@ -10,3 +10,9 @@ export const SignupValidationSchema = z.object({
     // TODO: Add Password validation for atleast (8 characters, 1 Capitol letter, 1 symbol)
     password: z.string().min(8, { message: 'Password must be atleast 8 characters'})
   })
+
+  export const SigninValidationSchema = z.object({
+    email: z.string().email({ message: 'Invalid email'}),
+    // TODO: Add Password validation for atleast (8 characters, 1 Capitol letter, 1 symbol)
+    password: z.string().min(8, { message: 'Password must be atleast 8 characters'})
+  })

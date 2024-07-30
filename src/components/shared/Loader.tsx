@@ -1,4 +1,4 @@
-import React from 'react'
+// src/components/shared/Loader.tsx
 
 const Loader = () => {
     return (

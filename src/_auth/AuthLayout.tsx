@@ -1,3 +1,4 @@
+// src/_auth/AuthLayout.tsx
 import { Outlet, Navigate } from "react-router-dom"
 
 const AuthLayout = () => {

@@ -1,3 +1,4 @@
+// src/_auth/forms/SignupForm.tsx
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,6 +11,9 @@ import { Link, useNavigate } from "react-router-dom"
 import { useToast } from "@/components/ui/use-toast"
 import { useSignInAccount, userCreateUserAccount } from "@/lib/react-query/queriesAndMutations"
 import { useUserContext } from "@/context/AuthContext"
+import { createLogger } from '@/utils/logger';
+
+const logger = createLogger('SignupForm');
 
 const SignupForm = () => {
   const { toast } = useToast();
@@ -30,27 +34,25 @@ const SignupForm = () => {
       email: '',
       password: '',
     },
-  })
+  });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidationSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+    logger.info('Submitting signup form', values);
+
     // create the user
     const newUser = await createUserAccount(values);
     if (!newUser) {
+      logger.warn('Sign up failed');
       return toast({
         title: "Sign up failed. Please try again",
       });
     }
 
-    const session = await signInAccount({
-      email: values.email,
-      password: values.password
-    });
+    const session = await signInAccount({ email: values.email, password: values.password });
 
     if (!session) {
+      logger.warn('Sign in failed');
       return toast({
         title: "Sign in failed. Please try again",
       });
@@ -58,11 +60,12 @@ const SignupForm = () => {
 
     const isLoggedIn = await checkAuthUser();
 
-    if(isLoggedIn){
+    if (isLoggedIn) {
       form.reset();
+      logger.info('User logged in successfully');
       navigate('/');
-    }
-    else{
+    } else {
+      logger.warn('Failed to log in user after sign up');
       return toast({
         title: "Sign up failed. Please try again",
       });
@@ -142,7 +145,7 @@ const SignupForm = () => {
         </form>
       </div >
     </Form>
-  )
+  );
 }
 
-export default SignupForm
+export default SignupForm;

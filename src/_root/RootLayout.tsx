@@ -1,4 +1,4 @@
-import React from 'react'
+// src/_root/RootLayout.tsx
 
 const RootLayout = () => {
   return (

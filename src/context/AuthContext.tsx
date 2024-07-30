@@ -1,3 +1,4 @@
+// src/context/AuthContext.tsx
 import { getCurrentUser } from '@/lib/appwrite/api';
 import { IContextType, IUser } from '@/types';
 import { createContext, useContext, useEffect, useState } from 'react'
@@ -56,12 +57,25 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     useEffect(() => {
-        // localStorage.getItem('cookieFallback') === null
-        if (
-            localStorage.getItem('cookieFallback') === '[]' //||
-        ) navigate('/sign-in'), []
-        checkAuthUser();
-    },);
+        const initializeAuth = async () => {
+            const cookieFallback = localStorage.getItem('cookieFallback');
+            if (cookieFallback === '[]' || cookieFallback === null) {
+                navigate('/sign-in');
+            } else {
+                await checkAuthUser();
+            }
+        };
+
+        initializeAuth();
+    }, []); // The empty array ensures this runs only once on mount
+
+    // useEffect(() => {
+    //     if (
+    //         localStorage.getItem('cookieFallback') === '[]' ||
+    //         localStorage.getItem('cookieFallback') === null
+    //     ) navigate('/sign-in'), []
+    //     checkAuthUser();
+    // },);
 
 
     const value = {

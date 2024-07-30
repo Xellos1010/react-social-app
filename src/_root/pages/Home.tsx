@@ -1,5 +1,4 @@
-import React from 'react'
-
+// src/_root/pages/Home.tsx
 const Home = () => {
   return (
     <div>Home</div>
