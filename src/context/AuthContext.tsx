@@ -1,4 +1,5 @@
 // src/context/AuthContext.tsx
+
 import { getCurrentUser } from '@/lib/appwrite/api';
 import { IContextType, IUser } from '@/types';
 import { createContext, useContext, useEffect, useState } from 'react'
@@ -64,6 +65,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             } else {
                 await checkAuthUser();
             }
+            // await checkAuthUser();
+            // if(isAuthenticated)
+            // {
+            //     navigate('/');   
+            // }
         };
 
         initializeAuth();
